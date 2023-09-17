@@ -1,0 +1,584 @@
+﻿<% var USER_ID = curUserID; var IS_DEBUG = OptInt(tools_web.get_web_param(
+curParams, "is_debug", 0, true )) == 1; %>
+<script
+  type="text/javascript"
+  src="websoft_education/gazprom/js/jquery-ui.min.js"
+></script>
+<link rel="stylesheet" href="websoft_education/gazprom/src/css/jquery-ui.min.css" />
+<link rel="stylesheet" href="websoft_education/gazprom/src/css/old-style.css" />
+<link rel="stylesheet" href="websoft_education/gazprom/src/css/table.css" />
+<link rel="stylesheet" href="websoft_education/gazprom/src/css/select.css" />
+<link rel="stylesheet" href="websoft_education/gazprom/src/css/checkbox.css" />
+ <script src="websoft_education/gazprom/src/js/old-script.js" defer></script>
+
+<script src="websoft_education/gazprom/src/js/select-bids.js" type="module" defer></script>
+<script src="websoft_education/gazprom/src/js/select-vacancy.js" type="module" defer></script>
+<script src="websoft_education/gazprom/src/js/select-candidates.js" type="module" defer></script>
+<script src="websoft_education/gazprom/dist/bundle.js" defer></script>
+
+<div>
+  <div class="main-container">
+    
+    <div class="control">
+      <table>
+        <tr>
+          <td style="vertical-align: top">
+            <a
+              class="Gazprom__button"
+              href="_wt/subordination_structure"
+              style="display: block"
+              >Подать заявку на подбор</a
+            >
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <ul class="main-nav">
+      <li class="tab" content_id="all_request">Мои заявки</li>
+      <li class="tab" content_id="request_for_approval">Мои вакансии</li>
+      <li class="tab" content_id="candidates">Кандидаты</li>
+    </ul>
+
+    <div class="main-content">
+      <div class="content-body">
+        <div class="tab-content" id="all_request">
+          <div class="table_filters">
+            <!-- input[date] -->
+
+            <label for="date1"
+              >Дата создания с:
+              <input
+                name="date1"
+                type="text"
+                class="Gazprom__input-text Gazprom__input-date"
+                autocomplete="off"
+            /></label>
+            <label for="date2"
+              >Дата создания по:
+              <input
+                name="date2"
+                type="text"
+                class="Gazprom__input-text Gazprom__input-date"
+                autocomplete="off"
+            /></label>
+            
+            <!-- начало SELECT мои заявки -->
+
+            <div class="select-container">
+              <div class="description">
+                <label class="head-description">Статус</label>
+                <div>
+                  <p class="select-description">Все статусы</p>
+                  <div class="select-image">
+                    <img
+                      src="websoft_education/gazprom/images/select.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="content">
+                <label
+                  >Все заявки
+                  <input
+                    type="checkbox"
+                    checked
+                    onclick="changeTheStateOfSelectDropdownBids('bids')"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+
+                <label
+                  >Закрыта
+                  <input
+                    type="checkbox"
+                    checked
+                    onclick="changeTheStateOfSelectDropdownBids('closed')"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+
+                <label
+                  >Отклонена
+                  <input
+                    type="checkbox"
+                    checked
+                    onclick="changeTheStateOfSelectDropdownBids('rejected')"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+
+                <label
+                  >Черновик
+                  <input
+                    type="checkbox"
+                    checked
+                    onclick="changeTheStateOfSelectDropdownBids('draft')"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+              </div> 
+            </div>
+          </div>
+            <!-- конец SELECT мои заявки -->
+
+          <!-- начало table мои заявки -->
+          <div class="table-container">
+            <div class="description-bids row">
+              <div id="bids-sort-date" class="cell">
+                <p>Дата создания</p>
+                <span class="arrow"></span>
+              </div>
+              <div id="bids-sort-vacancy" class="cell">
+                <p>Вакансия</p>
+                <span class="arrow"></span>
+              </div>
+              <div id="bids-sort-status" class="cell">
+                <p>Статуc</p>
+                <span class="arrow"></span>
+              </div>
+            </div>
+            <div class="table-bids content"></div>
+          </div>
+          </div>
+
+          <!-- конец table мои заявки -->
+
+          <div class="tab-content" id="request_for_approval">
+            <!-- начало мои вакансии -->
+            <div class="table_filters">
+              <!-- 
+              <label for="state"
+                >Статус заявки:
+                <div class="select">
+                  <input
+                    class="select__input"
+                    type="hidden"
+                    name="state"
+                    value="новая"
+                  />
+                  <div class="select__head">новая</div>
+                  <ul class="select__list" style="display: none">
+                    <li class="select__item">все</li>
+                    <li class="select__item">новая</li>
+                    <li class="select__item">согласована</li>
+                    <li class="select__item">на доработку</li>
+                  </ul>
+                </div>
+              </label> -->
+              <label for="date1"
+                >Дата создания с:
+                <input
+                  name="date1"
+                  type="text"
+                  class="Gazprom__input-text Gazprom__input-date"
+                  autocomplete="off"
+              /></label>
+              <label for="date2"
+                >Дата создания по:
+                <input
+                  name="date2"
+                  type="text"
+                  class="Gazprom__input-text Gazprom__input-date"
+                  autocomplete="off"
+              /></label>
+
+              <!-- начало SELECT мои вакансии -->
+              <div class="select-container" id="select-my-vacancy">
+                <div class="description">
+                  <label class="head-description">Статус</label>
+                  <div>
+                    <p class="select-description">Все статусы</p>
+                    <div class="select-image">
+                      <img
+                        src="websoft_education/gazprom/images/select.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <label
+                    >В работе
+                    <input
+                      type="checkbox"
+                      checked
+                      onclick="changeTheStateOfSelectDropdownVacancy('onWork')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+  
+                  <label
+                    >Закрыта
+                    <input
+                      type="checkbox"
+                      checked
+                      onclick="changeTheStateOfSelectDropdownVacancy('closed')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+  
+                  <label
+                    >Закрыта заказчиком
+                    <input
+                      type="checkbox"
+                      checked
+                      onclick="changeTheStateOfSelectDropdownVacancy('closedByCustomer')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+  
+                  <label
+                    >Новая заявка
+                    <input
+                      type="checkbox"
+                      checked
+                      onclick="changeTheStateOfSelectDropdownVacancy('newBids')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                  <label
+                    >Отменена
+                    <input
+                      type="checkbox"
+                      checked
+                      onclick="changeTheStateOfSelectDropdownVacancy('canceled')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                  <label
+                    >Приостановлена
+                    <input
+                      type="checkbox"
+                      checked
+                      onclick="changeTheStateOfSelectDropdownVacancy('suspended')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                  <label
+                    >Сверх суммарной загрузки
+                    <input
+                      type="checkbox"
+                      checked
+                      onclick="changeTheStateOfSelectDropdownVacancy('aboveTotalLoad')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                </div> 
+              </div>
+
+              <!-- конец SELECT мои вакансии -->
+
+            </div>
+            <!-- начало таблицы вакансии -->
+            <div class="table-container">
+              <div class="description-vacancy row">
+                <div id="vacancy-sort-date" class="cell">
+                  <p>Дата создания</p>
+                  <span class="arrow"></span>
+                </div>
+                <div id="vacancy-sort-vacancy" class="cell">
+                  <p>Вакансия</p>
+                  <span class="arrow"></span>
+                </div>
+                <div id="vacancy-sort-status" class="cell">
+                  <p>Статуc</p>
+                  <span class="arrow"></span>
+                </div>
+                <div id="vacancy-sort-fullname" class="cell">
+                  <p>Ф.И.О.</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Контакты рекрутера</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Рассмотрено резюме</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Резюме направлено</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Проведено интервью</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Проверка СБ</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Оффер</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Трудоустроены</p>
+                  <span class="arrow"></span>
+                </div>
+              </div>
+              <div class="table-vacancy content"></div>
+            </div>
+            <!-- конец таблицы вакансии -->
+            </div>
+
+             
+            <div class="table_body"></div>
+          </div>
+          
+          <!-- секция кандидаты -->
+          <div class="tab-content" id="request_subordinates">
+            <!-- <div class="table_filters">
+              <label for="req_num"
+                >Номер заявки:
+                <div class="select">
+                  <input class="select__input" type="hidden" name="req_num" />
+                  <div class="select__head">Не выбрано</div>
+                  <ul class="select__list" style="display: none">
+                    <li class="select__item">Не выбрано</li>
+                    <li class="select__item">1</li>
+                    <li class="select__item">2</li>
+                  </ul>
+                </div>
+              </label>
+              <label for="initiator"
+                >Инициатор:
+                <div class="select">
+                  <input class="select__input" type="hidden" name="initiator" />
+                  <div class="select__head">Не выбрано</div>
+                  <ul class="select__list" style="display: none">
+                    <li class="select__item">Не выбрано</li>
+                    <li class="select__item">1</li>
+                    <li class="select__item">2</li>
+                  </ul>
+                </div>
+              </label>
+              <label for="position"
+                >Должность:
+                <div class="select">
+                  <input class="select__input" type="hidden" name="position" />
+                  <div class="select__head">Не выбрано</div>
+                  <ul class="select__list" style="display: none">
+                    <li class="select__item">Не выбрано</li>
+                    <li class="select__item">1</li>
+                    <li class="select__item">2</li>
+                  </ul>
+                </div>
+              </label>
+              <label for="state"
+                >Статус заявки:
+                <div class="select">
+                  <input
+                    class="select__input"
+                    type="hidden"
+                    name="state"
+                    value="все"
+                  />
+                  <div class="select__head">все</div>
+                  <ul class="select__list" style="display: none">
+                    <li class="select__item">все</li>
+                    <li class="select__item">новая</li>
+                    <li class="select__item">определен финальный кандидат</li>
+                    <li class="select__item">на согласовании у ЗД, ЗГД</li>
+                    <li class="select__item">
+                      на согласовании у непоср. руководителя
+                    </li>
+                    <li class="select__item">в работе</li>
+                    <li class="select__item">закрыта</li>
+                    <li class="select__item">на доработке</li>
+                    <li class="select__item">отменена</li>
+                  </ul>
+                </div>
+              </label>
+              <label for="date1"
+                >Дата создания с:
+                <input
+                  name="date1"
+                  type="text"
+                  class="Gazprom__input-text Gazprom__input-date"
+                  autocomplete="off"
+              /></label>
+              <label for="date2"
+                >Дата создания по:
+                <input
+                  name="date2"
+                  type="text"
+                  class="Gazprom__input-text Gazprom__input-date"
+                  autocomplete="off"
+              /></label>
+            </div> -->
+            <div class="table_body"></div>
+          </div>
+          <div class="tab-content" id="candidates">
+            <div class="table_filters">
+              <!-- <label for="req_num"
+                >Номер заявки:
+                <div class="select">
+                  <input class="select__input" type="hidden" name="req_num" />
+                  <div class="select__head">Не выбрано</div>
+                  <ul class="select__list" style="display: none">
+                    <li class="select__item">Не выбрано</li>
+                    <li class="select__item">1</li>
+                    <li class="select__item">2</li>
+                  </ul>
+                </div>
+              </label>
+              <label for="position"
+                >Должность:
+                <div class="select">
+                  <input class="select__input" type="hidden" name="position" />
+                  <div class="select__head">Не выбрано</div>
+                  <ul class="select__list" style="display: none">
+                    <li class="select__item">Не выбрано</li>
+                    <li class="select__item">1</li>
+                    <li class="select__item">2</li>
+                  </ul>
+                </div>
+              </label>
+              <label for="state"
+                >Статус заявки:
+                <div class="select">
+                  <input
+                    class="select__input"
+                    type="hidden"
+                    name="state"
+                    value="all"
+                  />
+                  <div class="select__head">все</div>
+                  <ul class="select__list" style="display: none">
+                    <li class="select__item" data_id="all">все</li>
+                    <li class="select__item" data_id="process">в работе</li>
+                    <li class="select__item" data_id="candidate">
+                      определен финальный кандидат
+                    </li>
+                    <li class="select__item" data_id="closed">закрыта</li>
+                    <li class="select__item" data_id="canceled">отменена</li>
+                  </ul>
+                </div>
+              </label>
+              <label for="event_state"
+                >Статус события:
+                <div class="select">
+                  <input
+                    class="select__input"
+                    type="hidden"
+                    name="event_state"
+                    value="new"
+                  />
+                  <div class="select__head">новое</div>
+                  <ul class="select__list" style="display: none">
+                    <li class="select__item" data_id="all">все</li>
+                    <li class="select__item" data_id="new">новое</li>
+                    <li class="select__item" data_id="succeeded">
+                      согласовано
+                    </li>
+                    <li class="select__item" data_id="failed">отклонено</li>
+                    <li class="select__item" data_id="reserve">резерв</li>
+                  </ul>
+                </div>
+              </label> -->
+              <label for="date1"
+                >Дата создания с:
+                <input
+                  name="date1"
+                  type="text"
+                  class="Gazprom__input-text Gazprom__input-date"
+                  autocomplete="off"
+              /></label>
+              <label for="date2"
+                >Дата создания по:
+                <input
+                  name="date2"
+                  type="text"
+                  class="Gazprom__input-text Gazprom__input-date"
+                  autocomplete="off"
+              /></label>
+              
+              <!-- начало SELECT кандидаты -->
+              <div class="select-container" id="select-my-candidates">
+                <div class="description">
+                  <label class="head-description">Статус</label>
+                  <div>
+                    <p class="select-description">Все статусы</p>
+                    <div class="select-image">
+                      <img
+                        src="websoft_education/gazprom/images/select.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="content">
+                  <label
+                    >Вакансия
+                    <input
+                      type="checkbox"
+                      checked
+                      onclick="changeTheStateOfSelectDropdownCandidates('vacancy')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+  
+                  <label
+                    >Событие
+                    <input
+                      type="checkbox"
+                      checked
+                      onclick="changeTheStateOfSelectDropdownCandidates('event')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                </div> 
+              </div>
+
+              <!-- конец SELECT кандидаты -->
+
+            </div>
+
+            <!-- начало таблицы кандидаты -->
+
+            <div class="table-container">
+              <div class="description-candidates row">
+                <div id="candidates-sort-date" class="cell">
+                  <p>Вакансия</p>
+                  <span class="arrow"></span>
+                </div>
+                <div id="candidates-sort-fullname" class="cell">
+                  <p>ФИО</p>
+                  <span class="arrow"></span>
+                </div>
+                <div id="candidates-sort-event" class="cell">
+                  <p>Событие</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Резюме</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Просмотреть файл</p>
+                  <span class="arrow"></span>
+                </div>
+                <div class="cell">
+                  <p>Скачать файл</p>
+                  <span class="arrow"></span>
+                </div>
+              </div>
+              <div class="table-candidates content"></div>
+            </div>
+
+            <!-- конец таблицы кандидаты -->
+            <div class="table_body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="Gazprom__spinner">
+    <div class="Gazprom__spinner"></div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+/* select description */
+
+.select-container {
+  width: 320px;
+}
+
+.select-container .description > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid silver;
+  padding: 1rem;
+}
+
+.select-container .head-description {
+  margin-bottom: 15px !important;
+}
+
+.select-container .select-description {
+  margin: 0;
+}
+
+.select-container .select-image {
+  width: 21px;
+  height: 21px;
+  cursor: pointer;
+
+  transition: 0.1s;
+}
+
+.select-container .select-image img {
+  width: 100%;
+  height: 100%;
+}
+
+/* select content */
+.select-container .content {
+  margin-top: 10px;
+}
