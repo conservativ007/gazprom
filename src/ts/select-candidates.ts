@@ -1,8 +1,3 @@
-// export const stateOfSelectDropdownCandidates = {
-//   vacancy: true,
-//   event: true,
-// };
-
 interface ITestObj {
   selectedCandidates: string[];
   getSelectedCandidates: () => string[];
@@ -53,15 +48,6 @@ export const selectCandidatesInit = () => {
     });
   });
 
-  // const changeTheStateOfSelectDropdownCandidates = (text: string) => {
-  //   let stateOfTheElem = stateOfSelectDropdownCandidates[text];
-  //   stateOfTheElem === false
-  //     ? (stateOfSelectDropdownCandidates[text] = true)
-  //     : (stateOfSelectDropdownCandidates[text] = false);
-
-  //   // console.log(stateOfSelectDropdownCandidates);
-  // };
-
   let elemOfSelectContentCandidates = document.querySelector(
     '#select-my-candidates .content'
   ) as HTMLElement;
@@ -83,18 +69,3 @@ export const selectCandidatesInit = () => {
       }
     });
 };
-
-// let elemsOfSelectCandidates = document.querySelectorAll(
-//   '#select-candidates input'
-// );
-// let keysOfStateOfSelectDropdownCandidates = Object.keys(
-//   stateOfSelectDropdownCandidates
-// );
-
-// elemsOfSelectCandidates.forEach((elem, index) => {
-//   elem.addEventListener('click', () =>
-//     changeTheStateOfSelectDropdownCandidates(
-//       keysOfStateOfSelectDropdownCandidates[index]
-//     )
-//   );
-// });
