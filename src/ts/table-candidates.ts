@@ -10,37 +10,7 @@ export interface IDataCandidates {
   resume: string;
 }
 
-interface ISTATE_OF_SORTED_CANDIDATES {
-  vacancy: boolean;
-  fullname: boolean;
-  event: boolean;
-  resume: boolean;
-}
-
-const STATE_OF_SORTED_CANDIDATES: ISTATE_OF_SORTED_CANDIDATES = {
-  vacancy: true,
-  fullname: true,
-  event: true,
-  resume: true,
-};
-
 let dataCandidates: IDataCandidates[] = [];
-
-// document
-//   .getElementById('candidates-sort-date')
-//   .addEventListener('click', () => {
-//     createTableCandidates().dataSort('vacancy');
-//   });
-// document
-//   .getElementById('candidates-sort-fullname')
-//   .addEventListener('click', () => {
-//     createTableCandidates().dataSort('fullname');
-//   });
-// document
-//   .getElementById('candidates-sort-event')
-//   .addEventListener('click', () => {
-//     createTableCandidates().dataSort('event');
-//   });
 
 export const createTableCandidates = () => {
   const addOneElemToData = (someData: IDataCandidates) => {
@@ -52,39 +22,20 @@ export const createTableCandidates = () => {
     dataCandidates = someData;
   };
 
-  // const dataSort = (elem: keyof IDataCandidates) => {
-  //   let arrowSort = STATE_OF_SORTED_CANDIDATES[elem];
-  //   if (arrowSort === false) {
-  //     STATE_OF_SORTED_CANDIDATES[elem] = true;
-  //   } else {
-  //     STATE_OF_SORTED_CANDIDATES[elem] = false;
-  //   }
+  const dataSort = () => {
+    dataCandidates.sort((a: IDataCandidates, b: IDataCandidates) => {
+      // по умолчанию сортировка по вакансии
+      if (a.vacancy.name < b.vacancy.name) {
+        return -1;
+      }
+      if (a.vacancy.name > b.vacancy.name) {
+        return 1;
+      }
+      return 0;
+    });
 
-  //   dataCandidates.sort((a: IDataCandidates, b: IDataCandidates) => {
-  //     // сортировка по вакансии
-  //     if (elem === 'vacancy') {
-  //       if (a[elem].name < b[elem].name) {
-  //         return arrowSort === true ? -1 : 1;
-  //       }
-  //       if (a[elem].name > b[elem].name) {
-  //         return arrowSort === true ? 1 : -1;
-  //       }
-  //       return 0;
-  //     }
-
-  //     // сортировка по всем остальным полям
-  //     if (a[elem] < b[elem]) {
-  //       return arrowSort === true ? -1 : 1;
-  //     }
-  //     if (a[elem] > b[elem]) {
-  //       return arrowSort === true ? 1 : -1;
-  //     }
-  //     return 0;
-  //   });
-
-  //   renderTableContent();
-  //   renderArrow();
-  // };
+    renderTableContent();
+  };
 
   const renderTableContent = () => {
     const elemOfTableContainer = document.querySelector(
@@ -130,26 +81,10 @@ export const createTableCandidates = () => {
     elemOfTableContainer?.insertAdjacentHTML('beforeend', combinedDataElems);
   };
 
-  const renderArrow = () => {
-    let elemsOfArrow = document.querySelectorAll(
-      '.description-candidates.row .arrow'
-    );
-    const keys = Object.keys(STATE_OF_SORTED_CANDIDATES);
-
-    keys.forEach((key, index) => {
-      if (index > 2) return;
-      const value =
-        STATE_OF_SORTED_CANDIDATES[key as keyof ISTATE_OF_SORTED_CANDIDATES];
-      elemsOfArrow[index].className =
-        value === true ? 'arrow arrow-up' : 'arrow arrow-down';
-    });
-  };
-
   return {
     renderTableContent,
-    // dataSort,
+    dataSort,
     dataCandidates,
-    renderArrow,
     addOneElemToData,
     addManyElemsToData,
   };

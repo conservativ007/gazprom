@@ -6,11 +6,11 @@ let tabName = null;
 const sortFunctions = {
   up: {
     default: (a, b) => a.localeCompare(b),
-    0: (a, b) => convertToDate(a) - convertToDate(b),
+    0: (a, b) => convertToDate(b) - convertToDate(a),
   },
   down: {
     default: (a, b) => b.localeCompare(a),
-    0: (a, b) => convertToDate(b) - convertToDate(a),
+    0: (a, b) => convertToDate(a) - convertToDate(b),
   },
 };
 

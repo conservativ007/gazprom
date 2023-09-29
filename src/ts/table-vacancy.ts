@@ -1,3 +1,5 @@
+import { convertToDate } from '../js/helpers/convert-to-date';
+
 export interface IDataVacancy {
   date: string;
   vacancy: string;
@@ -12,52 +14,7 @@ export interface IDataVacancy {
   employed: string;
 }
 
-interface ISTATE_OF_SORTED_VACANCY {
-  date: boolean;
-  vacancy: boolean;
-  status: boolean;
-  fullname: boolean;
-  recruiterContacts: boolean;
-  resumeReviewed: boolean;
-  resumeSentToCustomer: boolean;
-  interviewWithTheCustomerWasConducted: boolean;
-  checkSB: boolean;
-  offer: boolean;
-  employed: boolean;
-}
-
-const STATE_OF_SORTED_VACANCY: ISTATE_OF_SORTED_VACANCY = {
-  date: true,
-  vacancy: true,
-  status: true,
-  fullname: true,
-  recruiterContacts: true,
-  resumeReviewed: true,
-  resumeSentToCustomer: true,
-  interviewWithTheCustomerWasConducted: true,
-  checkSB: true,
-  offer: true,
-  employed: true,
-};
-
 let dataVacancy: IDataVacancy[] = [];
-
-// document.getElementById('vacancy-sort-date').addEventListener('click', () => {
-//   createTableVacancy().dataSort('date');
-// });
-// document
-//   .getElementById('vacancy-sort-vacancy')
-//   .addEventListener('click', () => {
-//     createTableVacancy().dataSort('vacancy');
-//   });
-// document.getElementById('vacancy-sort-status').addEventListener('click', () => {
-//   createTableVacancy().dataSort('status');
-// });
-// document
-//   .getElementById('vacancy-sort-fullname')
-//   .addEventListener('click', () => {
-//     createTableVacancy().dataSort('fullname');
-//   });
 
 export const createTableVacancy = () => {
   const addOneElemToData = (someData: IDataVacancy) => {
@@ -69,27 +26,20 @@ export const createTableVacancy = () => {
     dataVacancy = someData;
   };
 
-  // const dataSort = (elem: keyof IDataVacancy) => {
-  //   let arrowSort = STATE_OF_SORTED_VACANCY[elem];
-  //   if (arrowSort === false) {
-  //     STATE_OF_SORTED_VACANCY[elem] = true;
-  //   } else {
-  //     STATE_OF_SORTED_VACANCY[elem] = false;
-  //   }
+  // нужен только для начальной сортировки таблицы по умолчанию (сортировка по дате)
+  const dataSort = (elem: keyof IDataVacancy) => {
+    dataVacancy.sort((a: IDataVacancy, b: IDataVacancy) => {
+      if (convertToDate(a[elem]) < convertToDate(b[elem])) {
+        return 1;
+      }
+      if (convertToDate(a[elem]) > convertToDate(b[elem])) {
+        return -1;
+      }
+      return 0;
+    });
 
-  //   dataVacancy.sort((a: IDataVacancy, b: IDataVacancy) => {
-  //     if (a[elem] < b[elem]) {
-  //       return arrowSort === true ? -1 : 1;
-  //     }
-  //     if (a[elem] > b[elem]) {
-  //       return arrowSort === true ? 1 : -1;
-  //     }
-  //     return 0;
-  //   });
-
-  //   renderTableContent();
-  //   renderArrow();
-  // };
+    renderTableContent();
+  };
 
   const renderTableContent = () => {
     const elemOfTableContainer = document.querySelector(
@@ -122,26 +72,10 @@ export const createTableVacancy = () => {
     elemOfTableContainer?.insertAdjacentHTML('beforeend', combinedDataElems);
   };
 
-  const renderArrow = () => {
-    let elemsOfArrow = document.querySelectorAll(
-      '.description-vacancy.row .arrow'
-    );
-    const keys = Object.keys(STATE_OF_SORTED_VACANCY);
-
-    keys.forEach((key, index) => {
-      if (index > 3) return;
-      const value =
-        STATE_OF_SORTED_VACANCY[key as keyof ISTATE_OF_SORTED_VACANCY];
-      elemsOfArrow[index].className =
-        value === true ? 'arrow arrow-up' : 'arrow arrow-down';
-    });
-  };
-
   return {
     renderTableContent,
-    // dataSort,
+    dataSort,
     dataVacancy,
-    renderArrow,
     addOneElemToData,
     addManyElemsToData,
   };

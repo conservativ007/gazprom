@@ -1,32 +1,12 @@
+import { convertToDate } from '../js/helpers/convert-to-date.js';
+
 export interface IDataBids {
   date: string;
   vacancy: string;
   status: string;
 }
 
-interface ISTATE_OF_SORTED_BIDS {
-  date: boolean;
-  vacancy: boolean;
-  status: boolean;
-}
-
-const STATE_OF_SORTED_BIDS: ISTATE_OF_SORTED_BIDS = {
-  date: true,
-  vacancy: true,
-  status: true,
-};
-
 let data: IDataBids[] = [];
-
-// document.getElementById('bids-sort-date').addEventListener('click', () => {
-//   createTableBids().dataSort('date');
-// });
-// document.getElementById('bids-sort-vacancy').addEventListener('click', () => {
-//   createTableBids().dataSort('vacancy');
-// });
-// document.getElementById('bids-sort-status').addEventListener('click', () => {
-//   createTableBids().dataSort('status');
-// });
 
 export const createTableBids = () => {
   const addOneElemToData = (someData: IDataBids) => {
@@ -38,27 +18,19 @@ export const createTableBids = () => {
     data = someData;
   };
 
-  // const dataSort = (elem: keyof IDataBids) => {
-  //   let arrowSort = STATE_OF_SORTED_BIDS[elem];
-  //   if (arrowSort === false) {
-  //     STATE_OF_SORTED_BIDS[elem] = true;
-  //   } else {
-  //     STATE_OF_SORTED_BIDS[elem] = false;
-  //   }
+  const dataSort = (elem: keyof IDataBids) => {
+    data.sort((a: IDataBids, b: IDataBids) => {
+      if (convertToDate(a[elem]) < convertToDate(b[elem])) {
+        return 1;
+      }
+      if (convertToDate(a[elem]) > convertToDate(b[elem])) {
+        return -1;
+      }
+      return 0;
+    });
 
-  // data.sort((a: IDataBids, b: IDataBids) => {
-  //   if (a[elem] < b[elem]) {
-  //     return arrowSort === true ? -1 : 1;
-  //   }
-  //   if (a[elem] > b[elem]) {
-  //     return arrowSort === true ? 1 : -1;
-  //   }
-  //   return 0;
-  // });
-
-  // renderTableContent();
-  // renderArrow();
-  // };
+    renderTableContent();
+  };
 
   const renderTableContent = () => {
     const elemOfTableContainer = document.querySelector('.table-bids.content');
@@ -81,24 +53,10 @@ export const createTableBids = () => {
     elemOfTableContainer?.insertAdjacentHTML('beforeend', combinedDataElems);
   };
 
-  const renderArrow = () => {
-    let elemsOfArrow = document.querySelectorAll(
-      '.description-bids.row .arrow'
-    );
-    const keys = Object.keys(STATE_OF_SORTED_BIDS);
-
-    keys.forEach((key, index) => {
-      const value = STATE_OF_SORTED_BIDS[key as keyof ISTATE_OF_SORTED_BIDS];
-      elemsOfArrow[index].className =
-        value === true ? 'arrow arrow-up' : 'arrow arrow-down';
-    });
-  };
-
   return {
     renderTableContent,
-    // dataSort,
+    dataSort,
     data,
-    renderArrow,
     addOneElemToData,
     addManyElemsToData,
   };

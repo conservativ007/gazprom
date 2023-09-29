@@ -10,29 +10,23 @@ const initTable = () => {
   createTableBids().addManyElemsToData(dataBids);
   // отрисовать таблицу
   createTableBids().renderTableContent();
-  // отрисовать стрелки сортировки
-  createTableBids().renderArrow();
 
   // отсортируем по дате
-  // createTableBids().dataSort('date');
-  // createTableBids().dataSort('date');
+  createTableBids().dataSort('date');
 
   // таблица с вакансиями
   createTableVacancy().addManyElemsToData(dataVacancy);
   createTableVacancy().renderTableContent();
-  createTableVacancy().renderArrow();
-
   // отсортируем по дате
-  // createTableVacancy().dataSort('date');
-  // createTableVacancy().dataSort('date');
+  createTableVacancy().dataSort('date');
+  createTableVacancy().dataSort('date');
 
   // таблица с кандидатами
   createTableCandidates().addManyElemsToData(dataCandidates);
   createTableCandidates().renderTableContent();
-  createTableCandidates().renderArrow();
 
   // отсортируем по вакансии
-  // createTableCandidates().dataSort('vacancy');
+  createTableCandidates().dataSort();
 };
 
 initTable();
