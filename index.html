@@ -2,18 +2,23 @@
 curParams, "is_debug", 0, true )) == 1; %>
 <script
   type="text/javascript"
-  src="websoft_education/gazprom/js/jquery-ui.min.js"
+  src="websoft_education/gazprom/src/js/jquery-ui.min.js"
 ></script>
 <link rel="stylesheet" href="websoft_education/gazprom/src/css/jquery-ui.min.css" />
 <link rel="stylesheet" href="websoft_education/gazprom/src/css/old-style.css" />
 <link rel="stylesheet" href="websoft_education/gazprom/src/css/table.css" />
 <link rel="stylesheet" href="websoft_education/gazprom/src/css/select.css" />
 <link rel="stylesheet" href="websoft_education/gazprom/src/css/checkbox.css" />
- <script src="websoft_education/gazprom/src/js/old-script.js" defer></script>
+<link rel="stylesheet" href="websoft_education/gazprom/src/css/v-vacancy.css" />
 
+<script src="websoft_education/gazprom/src/js/old-script.js" defer></script>
 <script src="websoft_education/gazprom/src/js/select-bids.js" type="module" defer></script>
 <script src="websoft_education/gazprom/src/js/select-vacancy.js" type="module" defer></script>
+<script src="websoft_education/gazprom/src/js/select-candidates-filter.js" type="module" defer></script>
 <script src="websoft_education/gazprom/src/js/select-candidates.js" type="module" defer></script>
+<script src="websoft_education/gazprom/src/js/select-events.js" type="module" defer></script>
+<script src="websoft_education/gazprom/src/js/helpers/showOrHideCandidates.js" type="module" defer></script>
+<script src="websoft_education/gazprom/src/js/table-sort.js" type="module" defer></script>
 <script src="websoft_education/gazprom/dist/bundle.js" defer></script>
 
 <div>
@@ -46,7 +51,7 @@ curParams, "is_debug", 0, true )) == 1; %>
           <div class="table_filters">
             <!-- input[date] -->
 
-            <label for="date1"
+            <!-- <label for="date1"
               >Дата создания с:
               <input
                 name="date1"
@@ -61,7 +66,15 @@ curParams, "is_debug", 0, true )) == 1; %>
                 type="text"
                 class="Gazprom__input-text Gazprom__input-date"
                 autocomplete="off"
-            /></label>
+            /></label> -->
+            <label for="date1">
+              Дата создания с:
+              <input type="date" name="date1" class="start-date-bids">
+            </label>
+            <label for="date2">
+              Дата создания по:
+              <input type="date" name="date2" class="end-date-bids">
+            </label>
             
             <!-- начало SELECT мои заявки -->
 
@@ -72,19 +85,18 @@ curParams, "is_debug", 0, true )) == 1; %>
                   <p class="select-description">Все статусы</p>
                   <div class="select-image">
                     <img
-                      src="websoft_education/gazprom/images/select.svg"
+                      src="websoft_education/gazprom/src/images/select.svg"
                       alt=""
                     />
                   </div>
                 </div>
               </div>
-              <div class="content">
+              <div class="content" id="select-bids">
                 <label
                   >Все заявки
                   <input
                     type="checkbox"
                     checked
-                    onclick="changeTheStateOfSelectDropdownBids('bids')"
                   />
                   <span class="checkmark"></span>
                 </label>
@@ -94,7 +106,6 @@ curParams, "is_debug", 0, true )) == 1; %>
                   <input
                     type="checkbox"
                     checked
-                    onclick="changeTheStateOfSelectDropdownBids('closed')"
                   />
                   <span class="checkmark"></span>
                 </label>
@@ -104,7 +115,6 @@ curParams, "is_debug", 0, true )) == 1; %>
                   <input
                     type="checkbox"
                     checked
-                    onclick="changeTheStateOfSelectDropdownBids('rejected')"
                   />
                   <span class="checkmark"></span>
                 </label>
@@ -114,7 +124,6 @@ curParams, "is_debug", 0, true )) == 1; %>
                   <input
                     type="checkbox"
                     checked
-                    onclick="changeTheStateOfSelectDropdownBids('draft')"
                   />
                   <span class="checkmark"></span>
                 </label>
@@ -167,12 +176,12 @@ curParams, "is_debug", 0, true )) == 1; %>
                   </ul>
                 </div>
               </label> -->
-              <label for="date1"
+              <!-- <label for="date1"
                 >Дата создания с:
                 <input
                   name="date1"
                   type="text"
-                  class="Gazprom__input-text Gazprom__input-date"
+                  class="Gazprom__input-text Gazprom__input-date start-date"
                   autocomplete="off"
               /></label>
               <label for="date2"
@@ -180,9 +189,18 @@ curParams, "is_debug", 0, true )) == 1; %>
                 <input
                   name="date2"
                   type="text"
-                  class="Gazprom__input-text Gazprom__input-date"
+                  class="Gazprom__input-text Gazprom__input-date end-date"
                   autocomplete="off"
-              /></label>
+              /> -->
+              <label for="date1">
+                Дата создания с:
+                <input type="date" name="date1" class="start-date">
+              </label>
+              <label for="date2">
+                Дата создания по:
+                <input type="date" name="date2" class="end-date">
+              </label>
+            </label>
 
               <!-- начало SELECT мои вакансии -->
               <div class="select-container" id="select-my-vacancy">
@@ -192,19 +210,18 @@ curParams, "is_debug", 0, true )) == 1; %>
                     <p class="select-description">Все статусы</p>
                     <div class="select-image">
                       <img
-                        src="websoft_education/gazprom/images/select.svg"
+                        src="websoft_education/gazprom/src/images/select.svg"
                         alt=""
                       />
                     </div>
                   </div>
                 </div>
-                <div class="content">
+                <div class="content" id="select-vacancy">
                   <label
                     >В работе
                     <input
                       type="checkbox"
                       checked
-                      onclick="changeTheStateOfSelectDropdownVacancy('onWork')"
                     />
                     <span class="checkmark"></span>
                   </label>
@@ -214,7 +231,6 @@ curParams, "is_debug", 0, true )) == 1; %>
                     <input
                       type="checkbox"
                       checked
-                      onclick="changeTheStateOfSelectDropdownVacancy('closed')"
                     />
                     <span class="checkmark"></span>
                   </label>
@@ -224,7 +240,6 @@ curParams, "is_debug", 0, true )) == 1; %>
                     <input
                       type="checkbox"
                       checked
-                      onclick="changeTheStateOfSelectDropdownVacancy('closedByCustomer')"
                     />
                     <span class="checkmark"></span>
                   </label>
@@ -234,7 +249,6 @@ curParams, "is_debug", 0, true )) == 1; %>
                     <input
                       type="checkbox"
                       checked
-                      onclick="changeTheStateOfSelectDropdownVacancy('newBids')"
                     />
                     <span class="checkmark"></span>
                   </label>
@@ -243,7 +257,6 @@ curParams, "is_debug", 0, true )) == 1; %>
                     <input
                       type="checkbox"
                       checked
-                      onclick="changeTheStateOfSelectDropdownVacancy('canceled')"
                     />
                     <span class="checkmark"></span>
                   </label>
@@ -252,7 +265,6 @@ curParams, "is_debug", 0, true )) == 1; %>
                     <input
                       type="checkbox"
                       checked
-                      onclick="changeTheStateOfSelectDropdownVacancy('suspended')"
                     />
                     <span class="checkmark"></span>
                   </label>
@@ -261,7 +273,6 @@ curParams, "is_debug", 0, true )) == 1; %>
                     <input
                       type="checkbox"
                       checked
-                      onclick="changeTheStateOfSelectDropdownVacancy('aboveTotalLoad')"
                     />
                     <span class="checkmark"></span>
                   </label>
@@ -413,131 +424,112 @@ curParams, "is_debug", 0, true )) == 1; %>
           </div>
           <div class="tab-content" id="candidates">
             <div class="table_filters">
-              <!-- <label for="req_num"
-                >Номер заявки:
-                <div class="select">
-                  <input class="select__input" type="hidden" name="req_num" />
-                  <div class="select__head">Не выбрано</div>
-                  <ul class="select__list" style="display: none">
-                    <li class="select__item">Не выбрано</li>
-                    <li class="select__item">1</li>
-                    <li class="select__item">2</li>
-                  </ul>
-                </div>
-              </label>
-              <label for="position"
-                >Должность:
-                <div class="select">
-                  <input class="select__input" type="hidden" name="position" />
-                  <div class="select__head">Не выбрано</div>
-                  <ul class="select__list" style="display: none">
-                    <li class="select__item">Не выбрано</li>
-                    <li class="select__item">1</li>
-                    <li class="select__item">2</li>
-                  </ul>
-                </div>
-              </label>
-              <label for="state"
-                >Статус заявки:
-                <div class="select">
-                  <input
-                    class="select__input"
-                    type="hidden"
-                    name="state"
-                    value="all"
-                  />
-                  <div class="select__head">все</div>
-                  <ul class="select__list" style="display: none">
-                    <li class="select__item" data_id="all">все</li>
-                    <li class="select__item" data_id="process">в работе</li>
-                    <li class="select__item" data_id="candidate">
-                      определен финальный кандидат
-                    </li>
-                    <li class="select__item" data_id="closed">закрыта</li>
-                    <li class="select__item" data_id="canceled">отменена</li>
-                  </ul>
-                </div>
-              </label>
-              <label for="event_state"
-                >Статус события:
-                <div class="select">
-                  <input
-                    class="select__input"
-                    type="hidden"
-                    name="event_state"
-                    value="new"
-                  />
-                  <div class="select__head">новое</div>
-                  <ul class="select__list" style="display: none">
-                    <li class="select__item" data_id="all">все</li>
-                    <li class="select__item" data_id="new">новое</li>
-                    <li class="select__item" data_id="succeeded">
-                      согласовано
-                    </li>
-                    <li class="select__item" data_id="failed">отклонено</li>
-                    <li class="select__item" data_id="reserve">резерв</li>
-                  </ul>
-                </div>
-              </label> -->
-              <label for="date1"
-                >Дата создания с:
-                <input
-                  name="date1"
-                  type="text"
-                  class="Gazprom__input-text Gazprom__input-date"
-                  autocomplete="off"
-              /></label>
-              <label for="date2"
-                >Дата создания по:
-                <input
-                  name="date2"
-                  type="text"
-                  class="Gazprom__input-text Gazprom__input-date"
-                  autocomplete="off"
-              /></label>
               
               <!-- начало SELECT кандидаты -->
               <div class="select-container" id="select-my-candidates">
                 <div class="description">
-                  <label class="head-description">Статус</label>
+                  <label class="head-description">Вакансия</label>
                   <div>
-                    <p class="select-description">Все статусы</p>
+                    <p class="select-description">Все вакансии</p>
                     <div class="select-image">
                       <img
-                        src="websoft_education/gazprom/images/select.svg"
+                        src="websoft_education/gazprom/src/images/select.svg"
                         alt=""
                       />
                     </div>
                   </div>
                 </div>
 
-                <div class="content">
+                <div class="content" id="select-candidates">
                   <label
-                    >Вакансия
+                    >Дизайнер
                     <input
                       type="checkbox"
                       checked
-                      onclick="changeTheStateOfSelectDropdownCandidates('vacancy')"
                     />
                     <span class="checkmark"></span>
                   </label>
   
                   <label
-                    >Событие
+                    >Менеджер по подбору персонала
                     <input
                       type="checkbox"
                       checked
-                      onclick="changeTheStateOfSelectDropdownCandidates('event')"
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                  <label
+                    >Методист
+                    <input
+                      type="checkbox"
+                      checked
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                  <label
+                    >Начальник отдела кадров
+                    <input
+                      type="checkbox"
+                      checked
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                  <label
+                    >Рекрутер
+                    <input
+                      type="checkbox"
+                      checked
                     />
                     <span class="checkmark"></span>
                   </label>
                 </div> 
               </div>
+              <div class="select-container" id="select-my-candidates-event">
+                <div class="description">
+                  <label class="head-description">Событие</label>
+                  <div>
+                    <p class="select-description">Все события</p>
+                    <div class="select-image">
+                      <img
+                        src="websoft_education/gazprom/src/images/select.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
 
+                <div class="content hide" id="select-candidates-event">
+                  <label
+                    >Резюме у заказчика
+                    <input
+                      type="checkbox"
+                      checked
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+  
+                  <label
+                    >Проверка СБ
+                    <input
+                      type="checkbox"
+                      checked
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                  <label
+                    >Принят на работу
+                    <input
+                      type="checkbox"
+                      checked
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                </div> 
+              </div>
               <!-- конец SELECT кандидаты -->
 
             </div>
-
+           
             <!-- начало таблицы кандидаты -->
 
             <div class="table-container">
@@ -558,14 +550,15 @@ curParams, "is_debug", 0, true )) == 1; %>
                   <p>Резюме</p>
                   <span class="arrow"></span>
                 </div>
-                <div class="cell">
+                
+                <!-- <div class="cell">
                   <p>Просмотреть файл</p>
                   <span class="arrow"></span>
                 </div>
                 <div class="cell">
                   <p>Скачать файл</p>
                   <span class="arrow"></span>
-                </div>
+                </div> -->
               </div>
               <div class="table-candidates content"></div>
             </div>

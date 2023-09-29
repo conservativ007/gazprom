@@ -1,7 +1,4 @@
-export const stateOfSelectDropdownCandidates = {
-  vacancy: true,
-  event: true,
-};
+// сворачивание разворачивание селекта (vacancy)
 
 let elemOfSelectContentCandidates = document.querySelector(
   '#select-my-candidates .content'
@@ -23,12 +20,3 @@ document
       elemOfSelectImageCandidates.style.transform = 'rotate(1turn)';
     }
   });
-
-const changeTheStateOfSelectDropdownCandidates = (text) => {
-  stateOfTheElem = stateOfSelectDropdownCandidates[text];
-  stateOfTheElem === false
-    ? (stateOfSelectDropdownCandidates[text] = true)
-    : (stateOfSelectDropdownCandidates[text] = false);
-
-  console.log(stateOfSelectDropdownCandidates);
-};

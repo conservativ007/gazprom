@@ -18,15 +18,15 @@ const STATE_OF_SORTED_BIDS: ISTATE_OF_SORTED_BIDS = {
 
 let data: IDataBids[] = [];
 
-document.getElementById('bids-sort-date').addEventListener('click', () => {
-  createTableBids().dataSort('date');
-});
-document.getElementById('bids-sort-vacancy').addEventListener('click', () => {
-  createTableBids().dataSort('vacancy');
-});
-document.getElementById('bids-sort-status').addEventListener('click', () => {
-  createTableBids().dataSort('status');
-});
+// document.getElementById('bids-sort-date').addEventListener('click', () => {
+//   createTableBids().dataSort('date');
+// });
+// document.getElementById('bids-sort-vacancy').addEventListener('click', () => {
+//   createTableBids().dataSort('vacancy');
+// });
+// document.getElementById('bids-sort-status').addEventListener('click', () => {
+//   createTableBids().dataSort('status');
+// });
 
 export const createTableBids = () => {
   const addOneElemToData = (someData: IDataBids) => {
@@ -38,27 +38,27 @@ export const createTableBids = () => {
     data = someData;
   };
 
-  const dataSort = (elem: keyof IDataBids) => {
-    let arrowSort = STATE_OF_SORTED_BIDS[elem];
-    if (arrowSort === false) {
-      STATE_OF_SORTED_BIDS[elem] = true;
-    } else {
-      STATE_OF_SORTED_BIDS[elem] = false;
-    }
+  // const dataSort = (elem: keyof IDataBids) => {
+  //   let arrowSort = STATE_OF_SORTED_BIDS[elem];
+  //   if (arrowSort === false) {
+  //     STATE_OF_SORTED_BIDS[elem] = true;
+  //   } else {
+  //     STATE_OF_SORTED_BIDS[elem] = false;
+  //   }
 
-    data.sort((a: IDataBids, b: IDataBids) => {
-      if (a[elem] < b[elem]) {
-        return arrowSort === true ? -1 : 1;
-      }
-      if (a[elem] > b[elem]) {
-        return arrowSort === true ? 1 : -1;
-      }
-      return 0;
-    });
+  // data.sort((a: IDataBids, b: IDataBids) => {
+  //   if (a[elem] < b[elem]) {
+  //     return arrowSort === true ? -1 : 1;
+  //   }
+  //   if (a[elem] > b[elem]) {
+  //     return arrowSort === true ? 1 : -1;
+  //   }
+  //   return 0;
+  // });
 
-    renderTableContent();
-    renderArrow();
-  };
+  // renderTableContent();
+  // renderArrow();
+  // };
 
   const renderTableContent = () => {
     const elemOfTableContainer = document.querySelector('.table-bids.content');
@@ -69,9 +69,9 @@ export const createTableBids = () => {
     const dataElems = data.map((elem: IDataBids) => {
       return `
         <div class="row">
-          <p class="cell">${elem.date}</p>
+          <p class="cell cell-date">${elem.date}</p>
           <p class="cell"><a href="${elem.vacancy}">link</a></p>
-          <p class="cell">${elem.status}</p>
+          <p class="cell cell-status">${elem.status}</p>
         </div>
       `;
     });
@@ -96,7 +96,7 @@ export const createTableBids = () => {
 
   return {
     renderTableContent,
-    dataSort,
+    // dataSort,
     data,
     renderArrow,
     addOneElemToData,

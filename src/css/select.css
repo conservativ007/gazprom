@@ -4,6 +4,10 @@
   width: 320px;
 }
 
+#select-my-candidates-event {
+  margin-left: 20px;
+}
+
 .select-container .description > div {
   display: flex;
   justify-content: space-between;
@@ -37,4 +41,8 @@
 /* select content */
 .select-container .content {
   margin-top: 10px;
+}
+
+.select-image-rotate-up {
+  transform: rotate(0.5turn);
 }

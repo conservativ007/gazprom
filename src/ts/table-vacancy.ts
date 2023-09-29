@@ -42,22 +42,22 @@ const STATE_OF_SORTED_VACANCY: ISTATE_OF_SORTED_VACANCY = {
 
 let dataVacancy: IDataVacancy[] = [];
 
-document.getElementById('vacancy-sort-date').addEventListener('click', () => {
-  createTableVacancy().dataSort('date');
-});
-document
-  .getElementById('vacancy-sort-vacancy')
-  .addEventListener('click', () => {
-    createTableVacancy().dataSort('vacancy');
-  });
-document.getElementById('vacancy-sort-status').addEventListener('click', () => {
-  createTableVacancy().dataSort('status');
-});
-document
-  .getElementById('vacancy-sort-fullname')
-  .addEventListener('click', () => {
-    createTableVacancy().dataSort('fullname');
-  });
+// document.getElementById('vacancy-sort-date').addEventListener('click', () => {
+//   createTableVacancy().dataSort('date');
+// });
+// document
+//   .getElementById('vacancy-sort-vacancy')
+//   .addEventListener('click', () => {
+//     createTableVacancy().dataSort('vacancy');
+//   });
+// document.getElementById('vacancy-sort-status').addEventListener('click', () => {
+//   createTableVacancy().dataSort('status');
+// });
+// document
+//   .getElementById('vacancy-sort-fullname')
+//   .addEventListener('click', () => {
+//     createTableVacancy().dataSort('fullname');
+//   });
 
 export const createTableVacancy = () => {
   const addOneElemToData = (someData: IDataVacancy) => {
@@ -69,27 +69,27 @@ export const createTableVacancy = () => {
     dataVacancy = someData;
   };
 
-  const dataSort = (elem: keyof IDataVacancy) => {
-    let arrowSort = STATE_OF_SORTED_VACANCY[elem];
-    if (arrowSort === false) {
-      STATE_OF_SORTED_VACANCY[elem] = true;
-    } else {
-      STATE_OF_SORTED_VACANCY[elem] = false;
-    }
+  // const dataSort = (elem: keyof IDataVacancy) => {
+  //   let arrowSort = STATE_OF_SORTED_VACANCY[elem];
+  //   if (arrowSort === false) {
+  //     STATE_OF_SORTED_VACANCY[elem] = true;
+  //   } else {
+  //     STATE_OF_SORTED_VACANCY[elem] = false;
+  //   }
 
-    dataVacancy.sort((a: IDataVacancy, b: IDataVacancy) => {
-      if (a[elem] < b[elem]) {
-        return arrowSort === true ? -1 : 1;
-      }
-      if (a[elem] > b[elem]) {
-        return arrowSort === true ? 1 : -1;
-      }
-      return 0;
-    });
+  //   dataVacancy.sort((a: IDataVacancy, b: IDataVacancy) => {
+  //     if (a[elem] < b[elem]) {
+  //       return arrowSort === true ? -1 : 1;
+  //     }
+  //     if (a[elem] > b[elem]) {
+  //       return arrowSort === true ? 1 : -1;
+  //     }
+  //     return 0;
+  //   });
 
-    renderTableContent();
-    renderArrow();
-  };
+  //   renderTableContent();
+  //   renderArrow();
+  // };
 
   const renderTableContent = () => {
     const elemOfTableContainer = document.querySelector(
@@ -102,9 +102,9 @@ export const createTableVacancy = () => {
     const dataElems = dataVacancy.map((elem: IDataVacancy) => {
       return `
         <div class="row">
-          <p class="cell">${elem.date}</p>
+          <p class="cell cell-date">${elem.date}</p>
           <p class="cell">${elem.vacancy}</p>
-          <p class="cell">${elem.status}</p>
+          <p class="cell cell-status">${elem.status}</p>
           <p class="cell">${elem.fullname}</p>
           <p class="cell">${elem.recruiterContacts}</p>
           <p class="cell">${elem.resumeReviewed}</p>
@@ -139,7 +139,7 @@ export const createTableVacancy = () => {
 
   return {
     renderTableContent,
-    dataSort,
+    // dataSort,
     dataVacancy,
     renderArrow,
     addOneElemToData,

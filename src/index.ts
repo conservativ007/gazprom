@@ -1,11 +1,6 @@
-import { IDataBids, createTableBids } from './ts/table-bids';
+import { createTableBids } from './ts/table-bids';
 import { createTableCandidates } from './ts/table-candidates';
 import { createTableVacancy } from './ts/table-vacancy';
-
-// здесь можно отслеживать отмеченные чекбоксы
-import { stateOfSelectDropdownBids } from './js/select-bids';
-import { stateOfSelectDropdownVacancy } from './js/select-vacancy';
-import { stateOfSelectDropdownCandidates } from './js/select-candidates';
 
 import { dataBids, dataCandidates, dataVacancy } from './ts/data';
 
@@ -19,8 +14,8 @@ const initTable = () => {
   createTableBids().renderArrow();
 
   // отсортируем по дате
-  createTableBids().dataSort('date');
-  createTableBids().dataSort('date');
+  // createTableBids().dataSort('date');
+  // createTableBids().dataSort('date');
 
   // таблица с вакансиями
   createTableVacancy().addManyElemsToData(dataVacancy);
@@ -28,8 +23,8 @@ const initTable = () => {
   createTableVacancy().renderArrow();
 
   // отсортируем по дате
-  createTableVacancy().dataSort('date');
-  createTableVacancy().dataSort('date');
+  // createTableVacancy().dataSort('date');
+  // createTableVacancy().dataSort('date');
 
   // таблица с кандидатами
   createTableCandidates().addManyElemsToData(dataCandidates);
@@ -37,7 +32,7 @@ const initTable = () => {
   createTableCandidates().renderArrow();
 
   // отсортируем по вакансии
-  createTableCandidates().dataSort('vacancy');
+  // createTableCandidates().dataSort('vacancy');
 };
 
 initTable();
